@@ -1,5 +1,5 @@
 //note to self. Dont need to use transformations. just change the x and y coordinates accordingly to prevent headaches;
-var Bathroom = function(x, y, width, length){
+var Livingroom = function(x, y, width, length){
 	this.x = x || 0;
 	this.y = y || 0;
 	this.width = width || 300;
@@ -7,14 +7,14 @@ var Bathroom = function(x, y, width, length){
 	this.rotation = 0;
 }
 
-Bathroom.prototype.show = function(){
+Livingroom.prototype.show = function(){
 	push();
-	fill(0, 255, 255, 175);
+	fill(0, 0, 128, 175);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }
 
-Bathroom.prototype.condition = function(){
+Livingroom.prototype.condition = function(){
 	if(this.rotation === 0){
 		return mouseX - this.x > 0 && mouseX - this.x < this.width && mouseY - this.y > 0 && mouseY - this.y < this.length;
 	}
@@ -29,7 +29,7 @@ Bathroom.prototype.condition = function(){
 	}
 }
 
-Bathroom.prototype.clicked = function(){
+Livingroom.prototype.clicked = function(){
 		if(this.condition()){
 
 			if(mouseX - pmouseX > 5){
@@ -129,7 +129,7 @@ Bathroom.prototype.clicked = function(){
 		}
 }
 
-Bathroom.prototype.cursor = function(){
+Livingroom.prototype.cursor = function(){
 	if(this.condition()){
 		cursor(MOVE);
 	}
@@ -138,7 +138,7 @@ Bathroom.prototype.cursor = function(){
 	}
 }
 
-Bathroom.prototype.rotate = function(){
+Livingroom.prototype.rotate = function(){
 	var store = this.width;
 	this.width = this.length * -1;
 	this.length = store;

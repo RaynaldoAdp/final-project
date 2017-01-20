@@ -3,9 +3,15 @@ var state = [{}];
 //decide the state of the menu(bedroom, bathroom, etc..)
 var menuState = null;
 //state of each room (to calculate area to calculate cost)
-var bedroomArea = 0;
-var bathroomArea = 0;
-var gardenArea = 0;
+var bedroomArea = [];
+var bathroomArea = [];
+var gardenArea = [];
+var kitchenArea = [];
+var livingroomArea = [];
+var garageArea = [];
+var carparkArea = [];
+var terraceArea = [];
+var hangerArea = [];
 //initial grid
 var gridArray = [];
 var grid = new Grid();
@@ -13,7 +19,13 @@ gridArray.push(grid);
 //to store the objects
 var objects = {  bedroom: [],
 				 bathroom: [],
-				 garden: []
+				 garden: [],
+				 kitchen: [],
+				 livingroom: [],
+				 garage: [],
+				 carpark: [],
+				 terrace: [],
+				 hanger: []
 			  };
 
 
@@ -24,43 +36,74 @@ var infoTemplate = 	'<form id="dimensionInput">' +
 						'<label for="length"> length </label>' +
 						'<input type="text" name="length" id="length" required />' +
 						'<input type= "submit" />' +
-					'</form>';
+					'</form>' +
+					'<button id="dimensionRemove">dimensionRemove</button>';
 
-var menuTemplate = '<button class="bedroom">Bedroom</button>' +
-				   '<button class="bathroom">Bathroom</button>' +
-				   '<button class="garden">Garden</button>';
-
-var removeTemplate = '<button id="dimensionRemove">dimensionRemove</button>';
+var menuTemplate = '<button class="room" id="bedroom">Bedroom</button>' +
+				   '<button class="room" id="bathroom">Bathroom</button>' +
+				   '<button class="room" id="garden">Garden</button>' +
+				   '<button class="room" id="kitchen">Kitchen</button>' +
+				   '<button class="room" id="livingroom">Living Room</button>' +
+				   '<button class="room" id="garage">Garage</button>' + 
+				   '<button class="room" id="carpark">Carpark</button>' +
+				   '<button class="room" id="terrace">Terrace</button>' +
+				   '<button class="room" id="hanger">Hanger</button>';
 
 
 $(document).ready(function(event){
 	$('.menuPanel').append(menuTemplate);
 
 	//toggle mode
-	$('.bedroom').click(function(){
+	$('#bedroom').click(function(){
 		menuState = 'bedroom';
 		$('.infoPanel').html(infoTemplate);
-		dimensionSubmit();
 	})
 
-	$('.bathroom').click(function(){
+	$('#bathroom').click(function(){
 		menuState = 'bathroom';
 		$('.infoPanel').html(infoTemplate);
-		dimensionSubmit();
 	})
 
-	$('.garden').click(function(){
+	$('#garden').click(function(){
 		menuState = 'garden';
 		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#kitchen').click(function(){
+		menuState = 'kitchen';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#livingroom').click(function(){
+		menuState = 'livingroom';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#garage').click(function(){
+		menuState = 'garage';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#carpark').click(function(){
+		menuState = 'carpark';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#terrace').click(function(){
+		menuState = 'terrace';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('#hanger').click(function(){
+		menuState = 'hanger';
+		$('.infoPanel').html(infoTemplate);
+	})
+
+	$('.room').click(function(){
 		dimensionSubmit();
+		dimensionRemove();
 	})
 });
-
-
-function appendRemove(){
-	$('.infoPanel').append(removeTemplate);
-	dimensionRemove();
-};
 
 function dimensionSubmit(){
 	$('#dimensionInput').submit(function(event){
@@ -69,36 +112,81 @@ function dimensionSubmit(){
 		var length = parseInt($('#length').val());
 		var area = width * length;
 		console.log(area);
-		if(menuState="bedroom"){
-			bedroomArea += area;
+		if(menuState==="bedroom"){
+			bedroomArea.push(area);
 		}
-		if(menuState = "bathroom"){
-			bathroomArea += area;
+		else if(menuState === "bathroom"){
+			bathroomArea.push(area);
 		}
-		if(menuState="garden"){
-			gardenArea += area;
+		else if(menuState==="garden"){
+			gardenArea.push(area);
 		}
-		appendRemove();
-		generateRoom();
+		else if(menuState === "kitchen"){
+			kitchenArea.push(area);
+		}
+		else if(menuState==="livingroom"){
+			livingroomArea.push(area);
+		}
+		else if(menuState === "garage"){
+			garageArea.push(area);
+		}
+		else if(menuState==="carpark"){
+			carparkArea.push(area);
+		}
+		else if(menuState === "terrace"){
+			terraceArea.push(area);
+		}
+		else if(menuState==="hanger"){
+			hangerArea.push(area);
+		}						
+		generateRoom(width,length);
 	})
 };
 
 function dimensionRemove(){
 	$('#dimensionRemove').click(function(event){
 		event.preventDefault();
+		console.log(1);
 		var width = parseInt($('#width').val());
 		var length = parseInt($('#length').val());
 		var area = width * length;
 		console.log(area);
-		if(menuState="bedroom"){
-			bedroomArea -= area;
+		if(menuState==="bedroom"){
+			bedroomArea.pop();
+			objects.bedroom.pop();
 		}
-		if(menuState = "bathroom"){
-			bathroomArea -= area;
+		else if(menuState === "bathroom"){
+			bedroomArea.pop();
+			objects.bathroom.pop();
 		}
-		if(menuState="garden"){
-			gardenArea -= area;
+		else if(menuState==="garden"){
+			gardenArea.pop();
+			objects.garden.pop();
 		}
+		else if(menuState === "kitchen"){
+			kitchenArea.pop();
+			objects.kitchen.pop();
+		}
+		else if(menuState==="livingroom"){
+			livingroomArea.pop();
+			objects.livingroom.pop();
+		}
+		else if(menuState === "garage"){
+			garageArea.pop();
+			objects.garage.pop();
+		}
+		else if(menuState==="carpark"){
+			carparkArea.pop();
+			objects.carpark.pop();
+		}
+		else if(menuState === "terrace"){
+			terraceArea.pop();
+			objects.terrace.pop();
+		}
+		else if(menuState==="hanger"){
+			hangerArea.pop();
+			objects.hanger.pop();
+		}						
 	})
 };
 
@@ -117,11 +205,16 @@ function draw(){
 		gridArray[i].show2();
 	}
 
-	for(var i =0; i< objects.bedroom.length; i++){
+	for(var key in objects){
+		for(var i=0; i < objects[key].length; i++){
+			objects[key][i].show();
+			objects[key][i].cursor();
+		}
+	}
+/*	for(var i =0; i< objects.bedroom.length; i++){
 		objects.bedroom[i].show();
 		objects.bedroom[i].cursor();
 	}
-
 	for(var i =0; i< objects.bathroom.length; i++){
 		objects.bathroom[i].show();
 		objects.bathroom[i].cursor();
@@ -131,40 +224,117 @@ function draw(){
 		objects.garden[i].show();
 		objects.garden[i].cursor();
 	}
+	for(var i =0; i< objects.kitchen.length; i++){
+		objects.kitchen[i].show();
+		objects.kitchen[i].cursor();
+	}
+
+	for(var i =0; i< objects.livingroom.length; i++){
+		objects.livingroom[i].show();
+		objects.livingroom[i].cursor();
+	}
+
+	for(var i =0; i< objects.garage.length; i++){
+		objects.garage[i].show();
+		objects.garage[i].cursor();
+	}
+	for(var i =0; i< objects.carpark.length; i++){
+		objects.carpark[i].show();
+		objects.carpark[i].cursor();
+	}
+
+	for(var i =0; i< objects.terrace.length; i++){
+		objects.terrace[i].show();
+		objects.terrace[i].cursor();
+	}
+
+	for(var i =0; i< objects.hanger.length; i++){
+		objects.hanger[i].show();
+		objects.hanger[i].cursor();
+	}	*/	
 }
 
 function mouseDragged() {
-	if(menuState ='bedroom'){
+	if(menuState ==='bedroom'){
 		for(var i = 0; i< objects.bedroom.length; i++){
 			objects.bedroom[i].clicked();
 		}
   	}
-  	if(menuState ='bathroom'){
+  	else if(menuState ==='bathroom'){
 		for(var i = 0; i< objects.bedroom.length; i++){
 			objects.bathroom[i].clicked();
 		}
 
   	}
-  	if(menuState ='garden'){
+  	else if(menuState ==='garden'){
 		for(var i = 0; i< objects.bedroom.length; i++){
 			objects.garden[i].clicked();
 		}
   	}
+  	else if(menuState ==='kitchen'){
+		for(var i = 0; i< objects.kitchen.length; i++){
+			objects.kitchen[i].clicked();
+		}
 
+  	}
+  	else if(menuState ==='livingroom'){
+		for(var i = 0; i< objects.livingroom.length; i++){
+			objects.livingroom[i].clicked();
+		}
+  	}
+   	else if(menuState ==='garage'){
+		for(var i = 0; i< objects.garage.length; i++){
+			objects.garage[i].clicked();
+		}
+
+  	}
+  	else if(menuState ==='carpark'){
+		for(var i = 0; i< objects.carpark.length; i++){
+			objects.carpark[i].clicked();
+		}
+  	}
+  	else if(menuState ==='terrace'){
+		for(var i = 0; i< objects.terrace.length; i++){
+			objects.terrace[i].clicked();
+		}
+  	}
+  	else if(menuState ==='hanger'){
+		for(var i = 0; i< objects.hanger.length; i++){
+			objects.hanger[i].clicked();
+		}
+  	} 	  	
 }
 
 function generateRoom(width, length){
 	var width = width;
 	var length = length;
-	if(menuState='bedroom'){
+	if(menuState === 'bedroom'){
 		objects.bedroom.push(new Bedroom(0, 0, width, length));
 	}
-	if(menuState="bathroom"){
+	else if(menuState === "bathroom"){
 		objects.bathroom.push(new Bathroom(0, 0, width, length));
 	}
-	if(menuState="garden"){
+	else if(menuState === "garden"){
 		objects.garden.push(new Garden(0, 0, width, length));
 	}
+	else if(menuState === "kitchen"){
+		objects.kitchen.push(new Kitchen(0, 0, width, length));
+	}
+	else if(menuState === "livingroom"){
+		objects.livingroom.push(new Livingroom(0, 0, width, length));
+	}
+	else if(menuState === "garage"){
+		objects.garage.push(new Garage(0, 0, width, length));
+	}
+	else if(menuState === "carpark"){
+		objects.carpark.push(new Carpark(0, 0, width, length));
+	}
+	else if(menuState === "terrace"){
+		objects.terrace.push(new Terrace(0, 0, width, length));
+	}
+	else if(menuState === "hanger"){
+		objects.hanger.push(new Hanger(0, 0, width, length));
+	}		
 }
 
 

@@ -13,8 +13,8 @@ Grid.prototype.show = function(){
 
 Grid.prototype.show2 = function(){
 	push();
-	stroke(255,0,0);
-	strokeWeight(2);
+	stroke(0);
+	strokeWeight(3);
     for(var i = 0; i < 501; i += 100){
         line(0 , i, 500, i);
     }

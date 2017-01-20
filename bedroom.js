@@ -9,7 +9,7 @@ var Bedroom = function(x, y, width, length){
 
 Bedroom.prototype.show = function(){
 	push();
-	fill(243, 75, 79, 150);
+	fill(243, 75, 79, 175);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }

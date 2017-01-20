@@ -9,7 +9,7 @@ var Garden = function(x, y, width, length){
 
 Garden.prototype.show = function(){
 	push();
-	fill(0, 255, 0, 150);
+	fill(0, 255, 0, 175);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }
