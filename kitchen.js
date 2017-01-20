@@ -5,11 +5,12 @@ var Kitchen = function(x, y, width, length){
 	this.width = width || 300;
 	this.length = length || 100;
 	this.rotation = 0;
+	this.alpha = 175;
 }
 
 Kitchen.prototype.show = function(){
 	push();
-	fill(188, 198, 204, 175);
+	fill(188, 198, 204,this.alpha);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }

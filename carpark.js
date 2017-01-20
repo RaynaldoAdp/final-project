@@ -5,11 +5,12 @@ var Carpark = function(x, y, width, length){
 	this.width = width || 300;
 	this.length = length || 100;
 	this.rotation = 0;
+	this.alpha = 175;
 }
 
 Carpark.prototype.show = function(){
 	push();
-	fill(225, 153, 151, 175);
+	fill(225, 153, 151, this.alpha);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }

@@ -5,11 +5,12 @@ var Bedroom = function(x, y, width, length){
 	this.width = width || 300;
 	this.length = length || 100;
 	this.rotation = 0;
+	this.alpha = 175;
 }
 
 Bedroom.prototype.show = function(){
 	push();
-	fill(243, 75, 79, 175);
+	fill(243, 75, 79, this.alpha);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }

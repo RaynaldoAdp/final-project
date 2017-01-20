@@ -1,5 +1,5 @@
 //state Components(the final Json object to export)
-var state = [{}];
+var state = items:[];
 //decide the state of the menu(bedroom, bathroom, etc..)
 var menuState = null;
 //state of each room (to calculate area to calculate cost)
@@ -53,48 +53,87 @@ var menuTemplate = '<button class="room" id="bedroom">Bedroom</button>' +
 $(document).ready(function(event){
 	$('.menuPanel').append(menuTemplate);
 
+	$('.room').click(function(){
+		changeAlpha();
+	})
 	//toggle mode
 	$('#bedroom').click(function(){
+		for(var i = 0; i <objects.bedroom.length; i++){
+			objects.bedroom[i].alpha = 175;
+		}
+
 		menuState = 'bedroom';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#bathroom').click(function(){
+		for(var i = 0; i <objects.bathroom.length; i++){
+			objects.bathroom[i].alpha = 175;
+		}
+
 		menuState = 'bathroom';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#garden').click(function(){
+		for(var i = 0; i <objects.garden.length; i++){
+			objects.garden[i].alpha = 175;
+		}
+
 		menuState = 'garden';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#kitchen').click(function(){
+		for(var i = 0; i <objects.kitchen.length; i++){
+			objects.kitchen[i].alpha = 175;
+		}
+
 		menuState = 'kitchen';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#livingroom').click(function(){
+		for(var i = 0; i <objects.livingroom.length; i++){
+			objects.livingroom[i].alpha = 175;
+		}
+
 		menuState = 'livingroom';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#garage').click(function(){
+		for(var i = 0; i <objects.garage.length; i++){
+			objects.garage[i].alpha = 175;
+		}
+
 		menuState = 'garage';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#carpark').click(function(){
+		for(var i = 0; i <objects.carpark.length; i++){
+			objects.carpark[i].alpha = 175;
+		}
+
 		menuState = 'carpark';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#terrace').click(function(){
+		for(var i = 0; i <objects.terrace.length; i++){
+			objects.terrace[i].alpha = 175;
+		}
+
 		menuState = 'terrace';
 		$('.infoPanel').html(infoTemplate);
 	})
 
 	$('#hanger').click(function(){
+		for(var i = 0; i <objects.hanger.length; i++){
+			objects.hanger[i].alpha = 175;
+		}
+
 		menuState = 'hanger';
 		$('.infoPanel').html(infoTemplate);
 	})
@@ -191,7 +230,13 @@ function dimensionRemove(){
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+function changeAlpha(){
+	for(key in objects){
+		for(var i = 0; i < objects[key].length; i++){
+			objects[key][i].alpha = 255;
+		}
+	}
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function setup(){
 	createCanvas(501, 501);

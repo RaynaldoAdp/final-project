@@ -5,11 +5,12 @@ var Terrace = function(x, y, width, length){
 	this.width = width || 300;
 	this.length = length || 100;
 	this.rotation = 0;
+	this.alpha = 175;
 }
 
 Terrace.prototype.show = function(){
 	push();
-	fill(255, 255, 0, 175);
+	fill(255, 255, 0, this.alpha);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }

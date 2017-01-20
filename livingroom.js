@@ -5,11 +5,12 @@ var Livingroom = function(x, y, width, length){
 	this.width = width || 300;
 	this.length = length || 100;
 	this.rotation = 0;
+	this.alpha = 175;
 }
 
 Livingroom.prototype.show = function(){
 	push();
-	fill(0, 0, 128, 175);
+	fill(0, 0, 128, this.alpha);
 	rect(this.x, this.y, this.width, this.length);
 	pop();
 }
