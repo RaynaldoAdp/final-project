@@ -1,5 +1,5 @@
 //state Components(the final Json object to export)
-var state = items:[];
+var state = [];
 //decide the state of the menu(bedroom, bathroom, etc..)
 var menuState = null;
 //state of each room (to calculate area to calculate cost)
