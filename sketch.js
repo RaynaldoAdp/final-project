@@ -2,9 +2,9 @@
 var state = [];
 //2d array to store state
 var circumferenceArray = [];
-for(var y = 0; y < 50; y++){
+for(var y = 0; y <= 50; y++){
 	circumferenceArray[y] = [];
-	for (var z = 0; z < 50; z++){
+	for (var z = 0; z <= 50; z++){
 		circumferenceArray[y][z] = 0;
 	}
 }
@@ -311,50 +311,69 @@ function draw(){
 function mouseDragged() {
 	if(menuState ==='bedroom'){
 		for(var i = 0; i< objects.bedroom.length; i++){
+			//might be causing error in calculations
+			updateCircumferenceMinus(objects.bedroom[i].x, objects.bedroom[i].y, objects.bedroom[i].width, objects.bedroom[i].length);
 			objects.bedroom[i].clicked();
+			updateCircumferencePlus(objects.bedroom[i].x, objects.bedroom[i].y, objects.bedroom[i].width, objects.bedroom[i].length);
 		}
   	}
   	else if(menuState ==='bathroom'){
 		for(var i = 0; i< objects.bedroom.length; i++){
+			updateCircumferenceMinus(objects.bathroom[i].x, objects.bathroom[i].y, objects.bathroom[i].width, objects.bathroom[i].length);
 			objects.bathroom[i].clicked();
+			updateCircumferencePlus(objects.bathroom[i].x, objects.bathroom[i].y, objects.bathroom[i].width, objects.bathroom[i].length);
 		}
 
   	}
   	else if(menuState ==='garden'){
 		for(var i = 0; i< objects.bedroom.length; i++){
+			updateCircumferenceMinus(objects.garden[i].x, objects.garden[i].y, objects.garden[i].width, objects.garden[i].length);
 			objects.garden[i].clicked();
+			updateCircumferencePlus(objects.garden[i].x, objects.garden[i].y, objects.garden[i].width, objects.garden[i].length);
 		}
   	}
   	else if(menuState ==='kitchen'){
 		for(var i = 0; i< objects.kitchen.length; i++){
+			updateCircumferenceMinus(objects.kitchen[i].x, objects.kitchen[i].y, objects.kitchen[i].width, objects.kitchen[i].length);
 			objects.kitchen[i].clicked();
+			updateCircumferencePlus(objects.kitchen[i].x, objects.kitchen[i].y, objects.kitchen[i].width, objects.kitchen[i].length);
 		}
 
   	}
   	else if(menuState ==='livingroom'){
 		for(var i = 0; i< objects.livingroom.length; i++){
+			updateCircumferenceMinus(objects.livingroom[i].x, objects.livingroom[i].y, objects.livingroom[i].width, objects.livingroom[i].length);
 			objects.livingroom[i].clicked();
+			updateCircumferencePlus(objects.livingroom[i].x, objects.livingroom[i].y, objects.livingroom[i].width, objects.livingroom[i].length);
 		}
   	}
    	else if(menuState ==='garage'){
 		for(var i = 0; i< objects.garage.length; i++){
+			updateCircumferenceMinus(objects.garage[i].x, objects.garage[i].y, objects.garage[i].width, objects.garage[i].length);
 			objects.garage[i].clicked();
+			updateCircumferencePlus(objects.garage[i].x, objects.garage[i].y, objects.garage[i].width, objects.garage[i].length);
 		}
 
   	}
   	else if(menuState ==='carpark'){
 		for(var i = 0; i< objects.carpark.length; i++){
+			updateCircumferenceMinus(objects.carpark[i].x, objects.carpark[i].y, objects.carpark[i].width, objects.carpark[i].length);
 			objects.carpark[i].clicked();
+			updateCircumferencePlus(objects.carpark[i].x, objects.carpark[i].y, objects.carpark[i].width, objects.carpark[i].length);
 		}
   	}
   	else if(menuState ==='terrace'){
 		for(var i = 0; i< objects.terrace.length; i++){
+			updateCircumferenceMinus(objects.terrace[i].x, objects.terrace[i].y, objects.terrace[i].width, objects.terrace[i].length);
 			objects.terrace[i].clicked();
+			updateCircumferencePlus(objects.terrace[i].x, objects.terrace[i].y, objects.terrace[i].width, objects.terrace[i].length);
 		}
   	}
   	else if(menuState ==='hanger'){
 		for(var i = 0; i< objects.hanger.length; i++){
+			updateCircumferenceMinus(objects.hanger[i].x, objects.hanger[i].y, objects.hanger[i].width, objects.hanger[i].length);
 			objects.hanger[i].clicked();
+			updateCircumferencePlus(objects.hanger[i].x, objects.hanger[i].y, objects.hanger[i].width, objects.hanger[i].length);
 		}
   	} 	  	
 }
@@ -364,53 +383,103 @@ function generateRoom(width, length){
 	var length = length;
 	if(menuState === 'bedroom'){
 		objects.bedroom.push(new Bedroom(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "bathroom"){
 		objects.bathroom.push(new Bathroom(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "garden"){
 		objects.garden.push(new Garden(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "kitchen"){
 		objects.kitchen.push(new Kitchen(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "livingroom"){
 		objects.livingroom.push(new Livingroom(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "garage"){
 		objects.garage.push(new Garage(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "carpark"){
 		objects.carpark.push(new Carpark(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "terrace"){
 		objects.terrace.push(new Terrace(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "hanger"){
 		objects.hanger.push(new Hanger(0, 0, width, length));
+		updateCircumferencePlus(0, 0, width , length);
 	}		
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-function updateCircumference(x,y,width,length){
+function updateCircumferencePlus(x,y,width,length){
 	var startX = x/10;
 	var startY = y/10;
 	var endX = startX + width/10;
 	var endY = startY + length/10;
-	for(var i = startX; i < endX - 1; i++ ){
+	for(var i = startX; i <= endX - 1; i++ ){
 		circumferenceArray[i][startY] += 1;
 	}
-	for(var i = startX; i < endX - 1; i++ ){
-		circumferenceArray[i][endY-1] += 1;
+	for(var i = startX; i <= endX - 1; i++ ){
+		circumferenceArray[i][endY] += 1;
 	}
-	for(var i = startY + 1; i < endY - 1; i++ ){
+	for(var i = startY + 1; i <= endY - 1; i++ ){
 		circumferenceArray[startX][i] += 1;
 	}
-	for(var i = startY; i < endY; i++ ){
-		circumferenceArray[endX-1][i] += 1;
+	for(var i = startY; i <= endY; i++ ){
+		circumferenceArray[endX][i] += 1;
 	}
 }
 
+function updateCircumferenceMinus(x,y,width,length){
+	var startX = x/10;
+	var startY = y/10;
+	var endX = startX + width/10;
+	var endY = startY + length/10;
+	for(var i = startX; i <= endX - 1; i++ ){
+		circumferenceArray[i][startY] -= 1;
+	}
+	for(var i = startX; i <= endX - 1; i++ ){
+		circumferenceArray[i][endY] -= 1;
+	}
+	for(var i = startY + 1; i <= endY - 1; i++ ){
+		circumferenceArray[startX][i] -= 1;
+	}
+	for(var i = startY; i <= endY; i++ ){
+		circumferenceArray[endX][i] -= 1;
+	}
+}
+
+function calculateTotalCircumference(array){
+	var total = 0;
+	for(var i =0; i <= 50; i++){
+		for(var j = 0; j <= 50; j++){
+			var target = array[i][j];
+			var nextTarget = array[i][j+1];
+			if(target > 0 && nextTarget > 0){
+				total +=10;
+			} 
+		}
+	}
+
+	for(var i =0; i <= 50; i++){
+		for(var j = 0; j <= 50; j++){
+			var target = array[j][i];
+			if(target > 0 && array[j+1][i] > 0){
+				total +=10;
+			} 
+		}
+	}
+	return total;
+}
 
 
 
