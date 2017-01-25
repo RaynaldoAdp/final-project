@@ -32,7 +32,7 @@ Bathroom.prototype.condition = function(){
 
 Bathroom.prototype.clicked = function(){
 		if(this.condition()){
-
+			
 			if(mouseX - pmouseX > 5){
 				this.x +=10;
 			}

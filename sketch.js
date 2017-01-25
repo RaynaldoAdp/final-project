@@ -1,5 +1,14 @@
 //state Components(the final Json object to export)
 var state = [];
+//2d array to store state
+var circumferenceArray = [];
+for(var y = 0; y < 50; y++){
+	circumferenceArray[y] = [];
+	for (var z = 0; z < 50; z++){
+		circumferenceArray[y][z] = 0;
+	}
+}
+
 //decide the state of the menu(bedroom, bathroom, etc..)
 var menuState = null;
 //state of each room (to calculate area to calculate cost)
@@ -382,7 +391,25 @@ function generateRoom(width, length){
 	}		
 }
 
-
+///////////////////////////////////////////////////////////////////////////////
+function updateCircumference(x,y,width,length){
+	var startX = x/10;
+	var startY = y/10;
+	var endX = startX + width/10;
+	var endY = startY + length/10;
+	for(var i = startX; i < endX - 1; i++ ){
+		circumferenceArray[i][startY] += 1;
+	}
+	for(var i = startX; i < endX - 1; i++ ){
+		circumferenceArray[i][endY-1] += 1;
+	}
+	for(var i = startY + 1; i < endY - 1; i++ ){
+		circumferenceArray[startX][i] += 1;
+	}
+	for(var i = startY; i < endY; i++ ){
+		circumferenceArray[endX-1][i] += 1;
+	}
+}
 
 
 
