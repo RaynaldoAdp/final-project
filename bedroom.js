@@ -73,60 +73,6 @@ Bedroom.prototype.clicked = function(){
 			if(mouseY - pmouseY < -25){
 				this.y -= 10;
 			}
-
-
-			if(mouseX - pmouseX > 35){
-				this.x +=10;
-			}
-			if(mouseY - pmouseY > 35){
-				this.y +=10;
-			}
-			if(mouseX - pmouseX < -35){
-				this.x -= 10;
-			}
-			if(mouseY - pmouseY < -35){
-				this.y -= 10;
-			}
-
-
-			if(mouseX - pmouseX > 45){
-				this.x +=10;
-			}
-			if(mouseY - pmouseY > 45){
-				this.y +=10;
-			}
-			if(mouseX - pmouseX < -45){
-				this.x -= 10;
-			}
-			if(mouseY - pmouseY < -45){
-				this.y -= 10;
-			}
-
-			if(mouseX - pmouseX > 55){
-				this.x +=10;
-			}
-			if(mouseY - pmouseY > 55){
-				this.y +=10;
-			}
-			if(mouseX - pmouseX < -55){
-				this.x -= 10;
-			}
-			if(mouseY - pmouseY < -55){
-				this.y -= 10;
-			}
-
-			if(mouseX - pmouseX > 60){
-				this.x +=10;
-			}
-			if(mouseY - pmouseY > 60){
-				this.y +=10;
-			}
-			if(mouseX - pmouseX < -60){
-				this.x -= 10;
-			}
-			if(mouseY - pmouseY < -60){
-				this.y -= 10;
-			}
 		}
 }
 

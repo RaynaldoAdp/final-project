@@ -1,16 +1,22 @@
 //state Components(the final Json object to export)
 var state = [];
-//2d array to store state
+
+//input width and length of canvas
+var canvasWidth = 50;
+var canvasLength = 50;
+
+//2d array to store circumference state
 var circumferenceArray = [];
-for(var y = 0; y <= 50; y++){
+for(var y = 0; y <= canvasWidth + 1; y++){
 	circumferenceArray[y] = [];
-	for (var z = 0; z <= 50; z++){
+	for (var z = 0; z <= canvasLength + 1; z++){
 		circumferenceArray[y][z] = 0;
 	}
 }
 
 //decide the state of the menu(bedroom, bathroom, etc..)
 var menuState = null;
+
 //state of each room (to calculate area to calculate cost)
 var bedroomArea = [];
 var bathroomArea = [];
@@ -21,10 +27,11 @@ var garageArea = [];
 var carparkArea = [];
 var terraceArea = [];
 var hangerArea = [];
+
 //initial grid
 var gridArray = [];
-var grid = new Grid();
-gridArray.push(grid);
+gridArray.push(new Grid(0,0,canvasWidth*10,canvasLength*10));
+
 //to store the objects
 var objects = {  bedroom: [],
 				 bathroom: [],
@@ -37,6 +44,9 @@ var objects = {  bedroom: [],
 				 hanger: []
 			  };
 
+//walls
+var horizontalWalls = [];
+var verticalWalls = [];
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var infoTemplate = 	'<form id="dimensionInput">' +
@@ -46,7 +56,8 @@ var infoTemplate = 	'<form id="dimensionInput">' +
 						'<input type="text" name="length" id="length" required />' +
 						'<input type= "submit" />' +
 					'</form>' +
-					'<button id="dimensionRemove">dimensionRemove</button>';
+					'<button id="dimensionRemove">dimensionRemove</button>' +
+					'<button id="eraser">eraser</button>';
 
 var menuTemplate = '<button class="room" id="bedroom">Bedroom</button>' +
 				   '<button class="room" id="bathroom">Bathroom</button>' +
@@ -150,9 +161,19 @@ $(document).ready(function(event){
 	$('.room').click(function(){
 		dimensionSubmit();
 		dimensionRemove();
+		eraser();
 	})
 });
 
+function eraser(){
+	$('#eraser').click(function(event){
+		cursor(CROSS);
+		menuState = "eraser";
+	})
+};
+
+
+//to store the area of the rooms
 function dimensionSubmit(){
 	$('#dimensionInput').submit(function(event){
 		event.preventDefault();
@@ -191,10 +212,10 @@ function dimensionSubmit(){
 	})
 };
 
+//to splice the area of the bedroom
 function dimensionRemove(){
 	$('#dimensionRemove').click(function(event){
 		event.preventDefault();
-		console.log(1);
 		var width = parseInt($('#width').val());
 		var length = parseInt($('#length').val());
 		var area = width * length;
@@ -239,6 +260,7 @@ function dimensionRemove(){
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//to get transparent effect during drag and drop
 function changeAlpha(){
 	for(key in objects){
 		for(var i = 0; i < objects[key].length; i++){
@@ -246,14 +268,20 @@ function changeAlpha(){
 		}
 	}
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//setting up the canvas
 function setup(){
-	createCanvas(501, 501);
-	background(100);
+	var inputWidth = canvasWidth * 10 + 1;
+	var inputLength = canvasLength * 10 + 1;
+	createCanvas(inputWidth, inputLength);
+	background(255);
 	frameRate(60);
 }
 
+//drawing the objects
 function draw(){
+
 	for(var i = 0; i< gridArray.length; i++){
 		gridArray[i].show();
 		gridArray[i].show2();
@@ -265,49 +293,29 @@ function draw(){
 			objects[key][i].cursor();
 		}
 	}
-/*	for(var i =0; i< objects.bedroom.length; i++){
-		objects.bedroom[i].show();
-		objects.bedroom[i].cursor();
-	}
-	for(var i =0; i< objects.bathroom.length; i++){
-		objects.bathroom[i].show();
-		objects.bathroom[i].cursor();
+
+	for(var i = 0; i< horizontalWalls.length; i++){
+		if(horizontalWalls[i].toDelete){
+			horizontalWalls.splice(i,1);
+			break;
+		}
+		horizontalWalls[i].show();
 	}
 
-	for(var i =0; i< objects.garden.length; i++){
-		objects.garden[i].show();
-		objects.garden[i].cursor();
-	}
-	for(var i =0; i< objects.kitchen.length; i++){
-		objects.kitchen[i].show();
-		objects.kitchen[i].cursor();
+	for(var i = 0; i< verticalWalls.length; i++){
+		verticalWalls[i].show();
 	}
 
-	for(var i =0; i< objects.livingroom.length; i++){
-		objects.livingroom[i].show();
-		objects.livingroom[i].cursor();
+	if(menuState==="eraser"){
+		if(mouseIsPressed){
+			for(var i = 0; i < horizontalWalls.length; i++){
+				horizontalWalls[i].erase();
+			}
+		}
 	}
-
-	for(var i =0; i< objects.garage.length; i++){
-		objects.garage[i].show();
-		objects.garage[i].cursor();
-	}
-	for(var i =0; i< objects.carpark.length; i++){
-		objects.carpark[i].show();
-		objects.carpark[i].cursor();
-	}
-
-	for(var i =0; i< objects.terrace.length; i++){
-		objects.terrace[i].show();
-		objects.terrace[i].cursor();
-	}
-
-	for(var i =0; i< objects.hanger.length; i++){
-		objects.hanger[i].show();
-		objects.hanger[i].cursor();
-	}	*/	
 }
 
+//dragging of mouse to move the object in canvas
 function mouseDragged() {
 	if(menuState ==='bedroom'){
 		for(var i = 0; i< objects.bedroom.length; i++){
@@ -316,9 +324,20 @@ function mouseDragged() {
 			objects.bedroom[i].clicked();
 			updateCircumferencePlus(objects.bedroom[i].x, objects.bedroom[i].y, objects.bedroom[i].width, objects.bedroom[i].length);
 		}
+		for(var j = 0; j<horizontalWalls.length; j++){
+			if(horizontalWalls[j].entity === "bedroom"){
+				horizontalWalls[j].clicked();
+			}
+		}
+
+		for(var k = 0; k<verticalWalls.length; k++){
+			if(verticalWalls[k].entity === "bedroom"){
+				verticalWalls[k].clicked();
+			}
+		}
   	}
   	else if(menuState ==='bathroom'){
-		for(var i = 0; i< objects.bedroom.length; i++){
+		for(var i = 0; i< objects.bathroom.length; i++){
 			updateCircumferenceMinus(objects.bathroom[i].x, objects.bathroom[i].y, objects.bathroom[i].width, objects.bathroom[i].length);
 			objects.bathroom[i].clicked();
 			updateCircumferencePlus(objects.bathroom[i].x, objects.bathroom[i].y, objects.bathroom[i].width, objects.bathroom[i].length);
@@ -326,7 +345,7 @@ function mouseDragged() {
 
   	}
   	else if(menuState ==='garden'){
-		for(var i = 0; i< objects.bedroom.length; i++){
+		for(var i = 0; i< objects.garden.length; i++){
 			updateCircumferenceMinus(objects.garden[i].x, objects.garden[i].y, objects.garden[i].width, objects.garden[i].length);
 			objects.garden[i].clicked();
 			updateCircumferencePlus(objects.garden[i].x, objects.garden[i].y, objects.garden[i].width, objects.garden[i].length);
@@ -378,11 +397,20 @@ function mouseDragged() {
   	} 	  	
 }
 
+//pushing new rooms to object array
 function generateRoom(width, length){
 	var width = width;
 	var length = length;
 	if(menuState === 'bedroom'){
 		objects.bedroom.push(new Bedroom(0, 0, width, length));
+		for(var i = 0; i < width; i+= 10){
+			horizontalWalls.push(new Horizontalwall(i, 0, "bedroom", 0, 0, width, length));
+			horizontalWalls.push(new Horizontalwall(i, length, "bedroom", 0, 0, width, length));
+		}
+		for(var i = 0; i < width; i+= 10){
+			verticalWalls.push(new Verticalwall(0, i, "bedroom", 0, 0, width, length));
+			verticalWalls.push(new Verticalwall(width, i, "bedroom", 0, 0, width, length));
+		}
 		updateCircumferencePlus(0, 0, width , length);
 	}
 	else if(menuState === "bathroom"){
@@ -420,6 +448,8 @@ function generateRoom(width, length){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+//to update the array for circumference
 function updateCircumferencePlus(x,y,width,length){
 	var startX = x/10;
 	var startY = y/10;
@@ -439,6 +469,7 @@ function updateCircumferencePlus(x,y,width,length){
 	}
 }
 
+//to update the array for circumference
 function updateCircumferenceMinus(x,y,width,length){
 	var startX = x/10;
 	var startY = y/10;
@@ -458,10 +489,11 @@ function updateCircumferenceMinus(x,y,width,length){
 	}
 }
 
+//to calculate total circumference
 function calculateTotalCircumference(array){
 	var total = 0;
-	for(var i =0; i <= 50; i++){
-		for(var j = 0; j <= 50; j++){
+	for(var i =0; i <= canvasWidth; i++){
+		for(var j = 0; j <= canvasLength; j++){
 			var target = array[i][j];
 			var nextTarget = array[i][j+1];
 			if(target > 0 && nextTarget > 0){
@@ -470,8 +502,8 @@ function calculateTotalCircumference(array){
 		}
 	}
 
-	for(var i =0; i <= 50; i++){
-		for(var j = 0; j <= 50; j++){
+	for(var i =0; i <= canvasWidth; i++){
+		for(var j = 0; j <= canvasLength; j++){
 			var target = array[j][i];
 			if(target > 0 && array[j+1][i] > 0){
 				total +=10;
@@ -483,3 +515,27 @@ function calculateTotalCircumference(array){
 
 
 
+//////////////////////////////////////////////////////DATABASE////////////////////////////////////////////////////////////////////
+function fondasi(){
+	//input
+	var panjangTotal = 28;
+	var jumlahFondasi = 12;
+	var lebarPanjangPileCap = 0.5;
+	var tebalPileCap = 0.15;
+	var height = 0.4;
+	var panjangBesi = 12;
+
+	var bowPlank = 0;
+	var wood = 0.01 * panjangTotal;
+	var nails = 0.02 * panjangTotal;
+
+	var pekerjaanFondasiCakarAyam;
+	var volumeFondasiCakarAyam = jumlahFondasi * lebarPanjangPileCap * lebarPanjangPileCap * tebalPileCap;
+	var iron = 8*lebarPanjangPileCap/panjangBesi + 4*height*jumlahFondasi;
+	var kerikil = 0.82 * volumeFondasiCakarAyam;
+	var sand = 0.54 * volumeFondasiCakarAyam;
+	var cement = sand * 1000 / 64;
+
+	var result = [iron, kerikil, sand, cement];
+	return result;
+}
