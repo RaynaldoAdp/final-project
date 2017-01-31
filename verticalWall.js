@@ -8,6 +8,7 @@ var Verticalwall = function(x, y, entity,xRect,yRect,width,length){
 	this.yRect = yRect;
 	this.width = width;
 	this.length = length;
+	this.toDelete = false;
 }
 
 Verticalwall.prototype.show = function(){
@@ -74,4 +75,10 @@ Verticalwall.prototype.clicked = function(){
 		}
 	}
 	this.end = this.y + 10;
+}
+
+Verticalwall.prototype.erase = function(){
+	if(mouseX - this.x > -2 && mouseX -this.x < 2 && mouseY - this.y > 0 && mouseY - this.y < 10){
+		this.toDelete = true;
+	}
 }

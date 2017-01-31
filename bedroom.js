@@ -10,8 +10,9 @@ var Bedroom = function(x, y, width, length){
 
 Bedroom.prototype.show = function(){
 	push();
-	fill(243, 75, 79, this.alpha);
-	rect(this.x, this.y, this.width, this.length);
+  	loadImage("images/bedroom.jpg", function(img) {
+    	image(img, 0, 0, this.width, this.length);
+  	});
 	pop();
 }
 

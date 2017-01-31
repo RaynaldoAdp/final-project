@@ -221,8 +221,18 @@ function dimensionRemove(){
 		var area = width * length;
 		console.log(area);
 		if(menuState==="bedroom"){
-			bedroomArea.pop();
-			objects.bedroom.pop();
+			bedroomArea = [];
+			objects.bedroom = [];
+			for(var i = verticalWalls.length -1; i >= 0; i--){
+				if(verticalWalls[i].entity === "bedroom"){
+					verticalWalls.splice(i,1);
+				}
+			}
+			for(var j = horizontalWalls.length-1; j >= 0; j--){
+				if(horizontalWalls[j].entity === "bedroom"){
+					horizontalWalls.splice(j,1);
+				}
+			}
 		}
 		else if(menuState === "bathroom"){
 			bedroomArea.pop();
@@ -303,6 +313,10 @@ function draw(){
 	}
 
 	for(var i = 0; i< verticalWalls.length; i++){
+		if(verticalWalls[i].toDelete){
+			verticalWalls.splice(i,1);
+			break;
+		}
 		verticalWalls[i].show();
 	}
 
@@ -311,8 +325,12 @@ function draw(){
 			for(var i = 0; i < horizontalWalls.length; i++){
 				horizontalWalls[i].erase();
 			}
+			for(var j = 0; j < verticalWalls.length; j++){
+				verticalWalls[j].erase();
+			}
 		}
 	}
+
 }
 
 //dragging of mouse to move the object in canvas
@@ -513,6 +531,42 @@ function calculateTotalCircumference(array){
 	return total;
 }
 
+
+function foundationCircumference(){
+	var total = 0;
+	total += horizontalWalls.length * 10;
+	total += verticalWalls.length * 10;
+	var horizontalStorage = {};
+	var verticalStorage = {};
+	for(var i=0; i < horizontalWalls.length; i++){
+
+		var x = horizontalWalls[i].x.toString();
+		var y = horizontalWalls[i].y.toString();
+		var coordinate = x +"," + y;
+
+		if(coordinate in horizontalStorage){
+			total -= 10;
+		}
+		else{
+			horizontalStorage[coordinate] = null;
+		}
+	}
+
+	for(var j=0; j < verticalWalls.length; j++){
+
+		var x = verticalWalls[j].x.toString();
+		var y = verticalWalls[j].y.toString();
+		var coordinate = x +"," + y;
+
+		if(coordinate in verticalStorage){
+			total -= 10;
+		}
+		else{
+			verticalStorage[coordinate] = null;
+		}
+	}
+	return total;
+}
 
 
 //////////////////////////////////////////////////////DATABASE////////////////////////////////////////////////////////////////////
